@@ -2,7 +2,7 @@
 pieceList = []
 numPieces = 24
 
-pieceWidth = (1080/3)/8
+pieceWidth = (500/3)/8 #intuitive; the screen dimensions, three boards across the screen, 8 pieces across a board
 
 board = [[x for x in range(8)]for y in range(8)]
 
@@ -20,6 +20,7 @@ class Checker:
     team = ""
     x = 0
     y = 0
+    king = False
     def __init__(self, team, x, y):
         self.team = team
         self.x = x
@@ -39,7 +40,7 @@ def instantiatePieceArray():
     for a in range((numPieces/2)+1,numPieces-1):
         pieceList.append(Checker("red", i-12, 7-((i-12)%2)+1))
         if i%2==0:
-            pieceList.append(Checker("red", i-12, 6)
+            pieceList.append(Checker("red", i-12, 6))
     
     
 # FUNCTION arraylist of checkers iterated over, passed to drawPiece
@@ -50,27 +51,32 @@ def instantiatePieceArray():
 def drawPiece(checker):
     if checker.team == "black":
         currPiece = blackPiece
+        fill(0,0,0)
     else:
         currPiece = redPiece
+        fill(255,0,0)
     #image(currPiece, checker.x, checker.y)
-    ellipse(100,100,20,20)
+    ellipse(checker.x*pieceWidth, checker.y*pieceWidth, 20, 20)
 
 #################################################Setup thing is super important
 def setup():
     size(500,500)
-    fill(100)
+    frameRate(30)
+    
     blackPiece = loadImage("black.jpg")
     redPiece = loadImage("red.jpg")
-
+    
     instantiatePieceArray()
     
     
     
 #################################################Main draw loop
 def draw():
-    background(0) #gonna be a picture of a board
+    background(100) #gonna be a picture of a board
     for piece in pieceList:
         drawPiece(piece)
+        print(String(piece.x))
+    
         
     
     
