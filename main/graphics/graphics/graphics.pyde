@@ -28,7 +28,7 @@ class Checker:
 
 
         
-    # give you three guesses what this does (it makes the pieces and  puts them in a list, dumbass)
+# give you three guesses what this does (it makes the pieces and  puts them in a list, dumbass)
 # wipes the list, creates the first numPieces/2 (12?) pieces as black, then the rest as red
 def instantiatePieceArray():
     #clear the list (.clear() isnt in processing?)
@@ -43,7 +43,7 @@ def instantiatePieceArray():
             pieceList.append(Checker("red", i-12, 6))
     
     
-# FUNCTION arraylist of checkers iterated over, passed to drawPiece
+# FUNCTION list of checkers iterated over, passed to drawPiece
 
 
         #draw functions
