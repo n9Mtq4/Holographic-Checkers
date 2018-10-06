@@ -24,7 +24,8 @@ class Checker:
         self.team = team
         self.x = x
         self.y = y
-    
+
+
         
     # give you three guesses what this does (it makes the pieces and  puts them in a list, dumbass)
 # wipes the list, creates the first numPieces/2 (12?) pieces as black, then the rest as red
@@ -32,10 +33,13 @@ def instantiatePieceArray():
     #clear the list (.clear() isnt in processing?)
     pieceList = []
     for i in range(0,numPieces/2):
-        pieceList.append(Checker("black", ))
-    for i in range((numPieces/2)+1,numPieces-1):
-        pieceList.append(Checker("red"))
-
+        if i%2==0:
+            pieceList.append(Checker("black", i, 2))
+        pieceList.append(Checker("black", i,i%2))#this does a fun thing to stagger the drawing, dont ask me to repeat it or explain it
+    for a in range((numPieces/2)+1,numPieces-1):
+        pieceList.append(Checker("red", i-12, 7-((i-12)%2)+1))
+        if i%2==0:
+            pieceList.append(Checker("red", i-12, 6)
     
     
 # FUNCTION arraylist of checkers iterated over, passed to drawPiece
