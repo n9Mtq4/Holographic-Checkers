@@ -1,11 +1,16 @@
-if __name__ == '__main__':
-    class Checker:
-        team = ""
-        x = 0
-        y = 0
 
-        def __init__(self, team, x, y):
-            self.team = team
+
+class Checker:
+    team = ""
+    x = 0
+    y = 0
+
+    def __init__(self, team, x, y):
+        self.team = team
+
+if __name__ == '__main__':
+    # TODO fully implement this flag
+    player = "Black"
     # initialize the board as a double array with none values in each space
     board = [None] * 8
     for i in range(8):
@@ -40,11 +45,33 @@ if __name__ == '__main__':
             # make the space empty
             for j in range(8):
                 board[i][j] = '0'
+
+
+
+
     # print out the board setup for testing. Comment this out if the above code is fully tested
+    # black player orientation
+    if player == "Black":
+        temp = []
+        for i in range(0,4):
+            # here I want to reverse the first list of the board (rows)
+            temp = board[i]
+            board[i] = board[7 - i]
+            board[7 - i] = temp
+
+    # white player orientation
+    else:
+        # here I want to reverse the second list of the board (cols)
+        for i in range(0,8):
+            temp = []
+            for j in range(0,4):
+                temp = board[i][j]
+                board[i][j] = board[i][7 - j]
+                board[i][7 - j] = temp
+
+
     for i in range(0,8):
-        line = " "
-    # loop over the indices backwards so that the actual printout reflects the ordering of the board
-    # bottom of the board should be 0,0 both under the hood and in the test printout
+        line = ' '
         for j in range(0,8):
-            line += board[7-i][j] + " "
+            line += board[i][j]
         print(line)
