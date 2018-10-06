@@ -4,13 +4,18 @@
         
         var ws = undefined;
         
+        var onmessage = function(ev) {
+            // this is called when we get a message from the server
+            alert(ev.data);
+        };
+        
         $('#connect').click(function() {
             
             var ipForm = $('#ip');
             var ip = ipForm.val();
             
             logln("connecting to " + ip);
-            ws = connect(ip);
+            ws = connect(ip, onmessage);
             logln("connected to " + ip);
             
         });

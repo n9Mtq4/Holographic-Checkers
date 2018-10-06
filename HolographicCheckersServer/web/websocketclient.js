@@ -2,7 +2,7 @@
     
     var logging = true;
     
-    var connect = function(url) {
+    var connect = function(url, messageCallback) {
         
         var ws = new WebSocket(url);
         
@@ -15,6 +15,7 @@
             // when the websocket receives a message from the server
             console.log(ev);
             logln("Message: " + ev.data);
+            messageCallback();
         };
         
         ws.onclose = function (ev) {
