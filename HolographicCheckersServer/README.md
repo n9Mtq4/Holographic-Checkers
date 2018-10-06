@@ -31,6 +31,8 @@ def setup():
 ```
 
 To build this library:
+There is also a built version uploaded to releases.
+
 1. Install gradle
 2. run `gradle shadowJar` on this project
 3. The jar is located at `./build/libs/HolographicCheckersServer-1.0-SNAPSHOT-all.jar`
