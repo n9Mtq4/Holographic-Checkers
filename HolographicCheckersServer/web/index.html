@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Websocket communication</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="websocketclient.js"></script>
+    <script src="app.js"></script>
+</head>
+<body>
+
+<input type="text" id="ip" name="ip" value="ws://localhost:1234">
+<button type="button" id="connect">Connect</button>
+
+<br>
+
+<input type="text" name="message" id="msg" value="">
+<button type="button" id="send">Send</button>
+
+<br>
+
+<div id="log">
+    Log:<br>
+</div>
+
+</body>
+</html>
