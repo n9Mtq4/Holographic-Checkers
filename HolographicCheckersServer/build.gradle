@@ -39,3 +39,8 @@ dependencies {
     compile group: 'org.python', name: 'jython', version: '2.7.1b3'
 
 }
+
+configurations {
+    /* We don't want the storm-core dependency in our shadowJar */
+    runtime.exclude module: 'jython'
+}
