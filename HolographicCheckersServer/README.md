@@ -30,6 +30,9 @@ def setup():
 
 ```
 
+In javascript:
+See code in web/
+
 To build this library:
 There is also a built version uploaded to releases.
 
@@ -38,6 +41,7 @@ There is also a built version uploaded to releases.
 3. The jar is located at `./build/libs/HolographicCheckersServer-1.0-SNAPSHOT-all.jar`
 
 To actually run, export your processing application:
+This might only work on linux
 1. File > Export Application
 2. In the exported directory, find the directory `./lib/jycessing`. For the raspberry pi, this will be `./application.linux32/lib/jycessing/`
 3. Put the built jar of this library in the directory from step 3
