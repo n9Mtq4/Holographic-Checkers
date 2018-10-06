@@ -42,9 +42,17 @@ def instantiatePieceArray():
         if i%2==0:
             pieceList.append(Checker("red", i-12, 6))
     
-    
-# FUNCTION arraylist of checkers iterated over, passed to drawPiece
-
+#Makes an arr and calls to draw a new piece, an "update" if you will, to that piece  
+def drawBoard (arr [][])
+#checks for any 'None' values on the board
+    for checkers in arr(checkersA):
+        for checkers2 in arr(checkersB):
+        
+            if checkers2 == None:
+               continue
+           else 
+               drawPiece(checkers2)
+            
 
         #draw functions
 #okay, now this is epic. This function, like, totally draws a red or black sprite at the right position. It takes a checker object as input. Rad!
