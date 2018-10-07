@@ -67,35 +67,52 @@ def boardSetup():
                 
     
 # FUNCTION list of checkers iterated over, passed to drawPiece
-#Makes an arr and calls to draw a new piece, an "update" if you will, to that piece  
-def drawBoard(board):
-    if player == "B":
-        temp = []
-        for i in range(0,4):
-            # here I want to reverse the first list of the board (rows)
-            temp = board[i]
-            board[i] = board[7 - i]
-            board[7 - i] = temp
-    #white
-    else:
-        # here I want to reverse the second list of the board (cols)
-        for i in range(0,8):
-            temp = []
-            for j in range(0,4):
-                temp = board[i][j]
-                board[i][j] = board[i][7 - j]
-                board[i][7 - j] = temp
-                
-# draws anything in the board that isnt None
+#Makes an arr and calls to draw a new piece, an "update" if you will, to that piece 
+
+def updateBoardList(move):
+    
+    board[move[1]][move[0]] = None #this is the piece being moved e.g. if the 
+   
+def updateBoard(board):
+    if player == 'B':
+        for y in range(0,8):
+            line = ''
+            for x in range(0,8):
+                if isinstance(board[7-y][x],Checker):
+                    line += board[7-y][x].toString() + ' '
+                else:
+                    line += board[7-y][x] + ' '
+            drawBoard(line)
+    # white player orientation
+    if player == 'W':
+        for y in range(0,8):
+            line = ''
+            for x in range(0,8):
+                if isinstance(board[y][7-x],Checker):
+                    line += board[y][7-x].toString() + ' '
+                else:
+                    line += board[y][7-x] + ' '
+            drawBoard(line)
+    # send output here
+    output = ''
     for y in range(0,8):
         for x in range(0,8):
-            if board[y][x]:
+            if isinstance(board[y][x],Checker):
+                output += board[y][x].toString() + ' '
+            else:
+                output += board[y][x] + ' '
+    #drawBoard(output) #send the 
+
+# draws anything in the board that isnt None
+drawBoard(output):
+    for y in range(0,8):
+        for x in range(0,8):
+            if output[8*y+x]:
                 board[y][x].x = x
                 board[y][x].y = y
                 drawPiece(board[y][x])
                
-        
-
+    
 
 #okay, now this is epic. This function, like, totally draws a red or black sprite at the right position. It takes a checker object as input. Rad!
 def drawPiece(checker):
@@ -114,7 +131,7 @@ def drawPiece(checker):
 def setup():
     size(500,500)
     background(100)
-    frameRate(30)
+    frameRate(1)
     fill(255,0,0)
     #blackPiece = loadImage("black.jpg")
     #redPiece = loadImage("red.jpg")
