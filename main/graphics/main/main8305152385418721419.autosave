@@ -67,16 +67,12 @@ def boardSetup():
                 
     
 # FUNCTION list of checkers iterated over, passed to drawPiece
+<<<<<<< HEAD
 #Makes an arr and calls to draw a new piece, an "update" if you will, to that piece 
 
 def updateBoardList(move):
-    #01 is xy of peice thats moving, 23 is xy of where to move it to.
-    initialPosition = move[0:1]
-    finalPosition = move[2:3]
-    if 
-    board[move[3]][move[2]] = board[move[1]][move[0]]
+    # 0123 where index 0=x 1=y of peice being moved and 2=x 3=y of where its moving to
     board[move[1]][move[0]] = None #this is the piece being moved e.g. if the 
-    
    
 def updateBoard(board):
     if player == 'B':
@@ -106,7 +102,7 @@ def updateBoard(board):
                 output += board[y][x].toString() + ' '
             else:
                 output += board[y][x] + ' '
-    #drawBoard(output) #send the 
+    drawBoard(output) 
 
 #Makes an arr and calls to draw a new piece, an "update" if you will, to that piece  
 def drawBoard(board):
