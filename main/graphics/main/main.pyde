@@ -67,7 +67,6 @@ def boardSetup():
                 
     
 # FUNCTION list of checkers iterated over, passed to drawPiece
-<<<<<<< HEAD
 #Makes an arr and calls to draw a new piece, an "update" if you will, to that piece 
 
 def updateBoardList(move):
@@ -104,7 +103,6 @@ def updateBoard(board):
                 output += board[y][x] + ' '
     #drawBoard(output) #send the 
 
-=======
 #Makes an arr and calls to draw a new piece, an "update" if you will, to that piece  
 def drawBoard(board):
     if player == "B":
@@ -124,7 +122,6 @@ def drawBoard(board):
                 board[y][x] = board[y][7 - x]
                 board[y][7 - x] = temp
                 
->>>>>>> 8ceb0e9af51716849a47bfd8d4f02ebaa3af2924
 # draws anything in the board that isnt None
 drawBoard(output):
     for y in range(0,8):
