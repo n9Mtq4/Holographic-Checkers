@@ -102,13 +102,17 @@ def updateBoard(board):
  
 # draws anything in the board that isnt None
 def drawBoard(output): #called with the flipped string
-    i=0
-    for y in range(0,8):
-        for x in range(0,8):
-            if output[i] == "W" or "B":
-                drawPiece(y,x,output[i])
-            i+=1
-            print(output[i])
+    x=0
+    y=0
+    for i in range(0,64):
+        if i%8==0 and i != 0:
+            y+=1
+            x=0
+        print(output[i])
+        if output[i] == "W" or "B":
+            drawPiece(y,x,output[i])
+        x+=1
+            #print(output[i])
                
     
 
@@ -117,9 +121,9 @@ def drawPiece(y,x,team):
     if team == "B":
         #currPiece = blackPiece
         fill(0,0,0)
-    else:
+    elif team == "W":
         #currPiece = redPiece
-        fill(255,0,0)
+        fill(255,255,255)
     #image(currPiece, checker.x, checker.y)
     ellipse(y*pieceWidth+(pieceWidth/2), x*pieceWidth+(pieceWidth/2), pieceWidth, pieceWidth)
 
@@ -130,7 +134,8 @@ def setup():
     size(500,500)
     background(100)
     frameRate(1)
-    fill(255,0,0)
+    noLoop()
+    fill(255,255,255)
     #blackPiece = loadImage("black.jpg")
     #redPiece = loadImage("red.jpg")
     
@@ -141,7 +146,7 @@ def setup():
 def draw():
     background(100) #gonna be a picture of a board
     updateBoard(board)
-    drawBoard(board)
+    #drawBoard(board) #happens in updateBoard
     
         
     
