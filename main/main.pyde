@@ -1,4 +1,4 @@
-
+#comment
 
 class Checker:
     team = ""
