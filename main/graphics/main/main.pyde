@@ -2,11 +2,11 @@
 pieceList = []
 numPieces = 24
 
+
 #current player flag
-player = "B"
+player = "W"
 
-pieceWidth = (500)/8 #intuitive; the screen dimensions, three boards across the screen, 8 pieces across a board
-
+pieceWidth = 80 #intuitive; the screen dimensions, three boards across the screen, 8 pieces across a board THIS NEEDS TO BE 45 FOR THE PROJECTOR
 
 # initialize the board as a double array with none values in each space
 board = [None] * 8
@@ -18,7 +18,7 @@ for y in range(8):
 #gamerule check
 #only need to update some positions, dont iterate them all
 #def updatePiecePos(piece):
-    
+
 """
 # checker class has parameters team ("red" or "black"), x, y (ints) 
 # methods 
@@ -71,13 +71,13 @@ def boardSetup():
 # FUNCTION list of checkers iterated over, passed to drawPiece
 #Makes an arr and calls to draw a new piece, an "update" if you will, to that piece 
 
-def updateBoardList(move):
-    board[move[3]][move[2]] = board[move[1]][move[0]] 
-    board[move[1]][move[0]] = None #this is the piece being moved
-    board[move[3]][move[2]].x = move[2]
-    board[move[3]][move[2]].y = move[3]
+def updateBoard(move):
+    board[int(move[3])][int(move[2])] = board[int(move[1])][int(move[0])] 
+    board[int(move[1])][int(move[0])] = None #this is the piece being moved
+    board[int(move[3])][int(move[2])].x = int(move[2])
+    board[int(move[3])][int(move[2])].y = int(move[3])
    
-def updateBoard(board):
+def displayBoard(board):
     if player == 'B':
         line = ''
         for y in range(0,8):
@@ -109,7 +109,7 @@ def drawBoard(output): #called with the flipped string
             y+=1
             x=0
         print(output[i])
-        if output[i] == "W" or "B":
+        if (output[i] == "W") or (output[i] == "B"):
             drawPiece(y,x,output[i])
         x+=1
             #print(output[i])
@@ -119,25 +119,27 @@ def drawBoard(output): #called with the flipped string
 #okay, now this is epic. This function, like, totally draws a red or black sprite at the right position. It takes a checker object as input. Rad!
 def drawPiece(y,x,team):
     if team == "B":
-        #currPiece = blackPiece
+        currPiece = bluePiece
         fill(0,0,0)
     elif team == "W":
-        #currPiece = redPiece
+        currPiece = redPiece
         fill(255,255,255)
-    #image(currPiece, checker.x, checker.y)
-    ellipse(y*pieceWidth+(pieceWidth/2), x*pieceWidth+(pieceWidth/2), pieceWidth, pieceWidth)
+    image(currPiece, x*pieceWidth, y*pieceWidth, pieceWidth, pieceWidth)
+    #ellipse(x*pieceWidth+(pieceWidth/2), y*pieceWidth+(pieceWidth/2), pieceWidth, pieceWidth)
 
 
 
 #################################################Setup thing is super important
 def setup():
-    size(500,500)
+    size(pieceWidth*8, pieceWidth*8)
     background(100)
     frameRate(1)
     noLoop()
     fill(255,255,255)
-    #blackPiece = loadImage("black.jpg")
-    #redPiece = loadImage("red.jpg")
+    global bluePiece
+    bluePiece = loadImage("blue.png")
+    global redPiece
+    redPiece = loadImage("red.png")
     
     boardSetup()
     #instantiatePieceList()
@@ -145,10 +147,19 @@ def setup():
 #################################################Main draw loop
 def draw():
     background(100) #gonna be a picture of a board
-    updateBoard(board)
+    displayBoard(board)
     #drawBoard(board) #happens in updateBoard
+    updateBoard("0213")
+    background(100) #gonna be a picture of a board
+    displayBoard(board)
+    updateBoard("1524")
+    background(100) #gonna be a picture of a board
+    displayBoard(board)
     
-        
+    
+    updateBoard("4253")
+    background(100) #gonna be a picture of a board
+    displayBoard(board)
     
     
     
