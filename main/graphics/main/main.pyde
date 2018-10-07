@@ -4,7 +4,7 @@ numPieces = 24
 
 
 #current player flag
-player = "W"
+player = "B"
 
 pieceWidth = 80 #intuitive; the screen dimensions, three boards across the screen, 8 pieces across a board THIS NEEDS TO BE 45 FOR THE PROJECTOR
 
@@ -77,8 +77,8 @@ def updateBoard(move):
     board[int(move[3])][int(move[2])].x = int(move[2])
     board[int(move[3])][int(move[2])].y = int(move[3])
    
-def displayBoard(board):
-    if player == 'B':
+def displayBoard(board, team):
+    if team == 'B':
         line = ''
         for y in range(0,8):
             for x in range(0,8):
@@ -88,7 +88,7 @@ def displayBoard(board):
                     line += "0"
         drawBoard(line)
     # white player orientation
-    if player == 'W':
+    if team == 'W':
         line = ''
         for y in range(0,8):
             for x in range(0,8):
@@ -134,33 +134,25 @@ def setup():
     size(pieceWidth*8, pieceWidth*8)
     background(100)
     frameRate(1)
-    noLoop()
+    #noLoop()
     fill(255,255,255)
     global bluePiece
     bluePiece = loadImage("blue.png")
     global redPiece
     redPiece = loadImage("red.png")
+    global backImg
+    backImg = loadImage("checkerboard.png")
     
-    boardSetup()
-    #instantiatePieceList()
+    boardSetup()# populates the starting board and pieces, array[][]
     
+    turn("4253", "B")
+    turn("5344", "W")
+    print("hello")
+    #delay(5000)
 #################################################Main draw loop
-def draw():
-    background(100) #gonna be a picture of a board
-    displayBoard(board)
-    #drawBoard(board) #happens in updateBoard
-    updateBoard("0213")
-    background(100) #gonna be a picture of a board
-    displayBoard(board)
-    updateBoard("1524")
-    background(100) #gonna be a picture of a board
-    displayBoard(board)
-    
-    
-    updateBoard("4253")
-    background(100) #gonna be a picture of a board
-    displayBoard(board)
-    
-    
-    
+
+def turn(move, nextTeam):
+    image(backImg, 0, 0, pieceWidth*8, pieceWidth*8) #gonna be a picture of a board
+    updateBoard(move)
+    displayBoard(board, nextTeam)
     
