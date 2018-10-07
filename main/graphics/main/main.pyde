@@ -57,7 +57,7 @@ def boardSetup():
                 # a checker should be placed on that coordinate
                 if (y + x) % 2 == 0:
                     # TODO add a checker here properly instead of an empty string
-                    board[y][x] = Checker("W",y,x)
+                    board[y][x] = Checker("R",y,x)
                 # make the space empty
                 else:
                     board[y][x] = None
@@ -88,7 +88,7 @@ def displayBoard(board, team):
                     line += "0"
         drawBoard(line)
     # white player orientation
-    if team == 'W':
+    if team == 'R':
         line = ''
         for y in range(0,8):
             for x in range(0,8):
@@ -109,7 +109,7 @@ def drawBoard(output): #called with the flipped string
             y+=1
             x=0
         print(output[i])
-        if (output[i] == "W") or (output[i] == "B"):
+        if (output[i] == "R") or (output[i] == "B"):
             drawPiece(y,x,output[i])
         x+=1
             #print(output[i])
@@ -121,7 +121,7 @@ def drawPiece(y,x,team):
     if team == "B":
         currPiece = bluePiece
         fill(0,0,0)
-    elif team == "W":
+    elif team == "R":
         currPiece = redPiece
         fill(255,255,255)
     image(currPiece, x*pieceWidth, y*pieceWidth, pieceWidth, pieceWidth)
@@ -146,7 +146,7 @@ def setup():
     boardSetup()# populates the starting board and pieces, array[][]
     
     turn("4253", "B")
-    turn("5344", "W")
+    turn("5344", "R")
     print("hello")
     #delay(5000)
 #################################################Main draw loop
