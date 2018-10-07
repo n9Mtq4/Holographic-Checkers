@@ -2,11 +2,11 @@
 pieceList = []
 numPieces = 24
 
+
 #current player flag
 player = "B"
 
-pieceWidth = (500)/8 #intuitive; the screen dimensions, three boards across the screen, 8 pieces across a board
-
+pieceWidth = 80 #intuitive; the screen dimensions, three boards across the screen, 8 pieces across a board THIS NEEDS TO BE 45 FOR THE PROJECTOR
 
 # initialize the board as a double array with none values in each space
 board = [None] * 8
@@ -18,7 +18,7 @@ for y in range(8):
 #gamerule check
 #only need to update some positions, dont iterate them all
 #def updatePiecePos(piece):
-    
+
 """
 # checker class has parameters team ("red" or "black"), x, y (ints) 
 # methods 
@@ -32,6 +32,8 @@ class Checker:
         self.team = team
         self.x = x
         self.y = y
+    def toString(self):
+        return self.team
 
 
 def boardSetup():
@@ -55,7 +57,7 @@ def boardSetup():
                 # a checker should be placed on that coordinate
                 if (y + x) % 2 == 0:
                     # TODO add a checker here properly instead of an empty string
-                    board[y][x] = Checker("W",y,x)
+                    board[y][x] = Checker("R",y,x)
                 # make the space empty
                 else:
                     board[y][x] = None
@@ -69,107 +71,88 @@ def boardSetup():
 # FUNCTION list of checkers iterated over, passed to drawPiece
 #Makes an arr and calls to draw a new piece, an "update" if you will, to that piece 
 
-def updateBoardList(move):
-    #01 is xy of peice thats moving, 23 is xy of where to move it to.
-    initialPosition = move[0:1]
-    finalPosition = move[2:3]
-    if 
-    board[move[3]][move[2]] = board[move[1]][move[0]]
-    board[move[1]][move[0]] = None #this is the piece being moved e.g. if the 
-    
+def updateBoard(move):
+    board[int(move[3])][int(move[2])] = board[int(move[1])][int(move[0])] 
+    board[int(move[1])][int(move[0])] = None #this is the piece being moved
+    board[int(move[3])][int(move[2])].x = int(move[2])
+    board[int(move[3])][int(move[2])].y = int(move[3])
    
-def updateBoard(board):
-    if player == 'B':
+def displayBoard(board, team):
+    if team == 'B':
+        line = ''
         for y in range(0,8):
-            line = ''
             for x in range(0,8):
                 if isinstance(board[7-y][x],Checker):
-                    line += board[7-y][x].toString() + ' '
+                    line += board[7-y][x].toString()
                 else:
-                    line += board[7-y][x] + ' '
-            drawBoard(line)
+                    line += "0"
+        drawBoard(line)
     # white player orientation
-    if player == 'W':
+    if team == 'R':
+        line = ''
         for y in range(0,8):
-            line = ''
             for x in range(0,8):
                 if isinstance(board[y][7-x],Checker):
-                    line += board[y][7-x].toString() + ' '
+                    line += board[y][7-x].toString()
                 else:
-                    line += board[y][7-x] + ' '
-            drawBoard(line)
-    # send output here
-    output = ''
-    for y in range(0,8):
-        for x in range(0,8):
-            if isinstance(board[y][x],Checker):
-                output += board[y][x].toString() + ' '
-            else:
-                output += board[y][x] + ' '
-    #drawBoard(output) #send the 
+                    line += "0"
+        drawBoard(line)
 
-#Makes an arr and calls to draw a new piece, an "update" if you will, to that piece  
-def drawBoard(board):
-    if player == "B":
-        temp = []
-        for y in range(0,4):
-            # here I want to reverse the first list of the board (rows)
-            temp = board[y]
-            board[y] = board[7 - y]
-            board[7 - y] = temp
-    #white
-    else:
-        # here I want to reverse the second list of the board (cols)
-        for y in range(0,8):
-            temp = []
-            for x in range(0,4):
-                temp = board[y][x]
-                board[y][x] = board[y][7 - x]
-                board[y][7 - x] = temp
-                
+
+ 
 # draws anything in the board that isnt None
-drawBoard(output):
-    for y in range(0,8):
-        for x in range(0,8):
-            if output[8*y+x]:
-                board[y][x].x = x
-                board[y][x].y = y
-                drawPiece(board[y][x])
+def drawBoard(output): #called with the flipped string
+    print(output)
+    x=0
+    y=0
+    for i in range(0,64):
+        if i%8==0 and i != 0:
+            y+=1
+            x=0
+        if (output[i] == "R") or (output[i] == "B"):
+            drawPiece(y,x,output[i])
+        x+=1
+            #print(output[i])
                
     
 
 #okay, now this is epic. This function, like, totally draws a red or black sprite at the right position. It takes a checker object as input. Rad!
-def drawPiece(checker):
-    if checker.team == "B":
-        #currPiece = blackPiece
+def drawPiece(y,x,team):
+    if team == "B":
+        currPiece = bluePiece
         fill(0,0,0)
-    else:
-        #currPiece = redPiece
-        fill(255,0,0)
-    #image(currPiece, checker.x, checker.y)
-    ellipse(checker.y*pieceWidth+(pieceWidth/2), checker.x*pieceWidth+(pieceWidth/2), pieceWidth, pieceWidth)
+    elif team == "R":
+        currPiece = redPiece
+        fill(255,255,255)
+    image(currPiece, x*pieceWidth, y*pieceWidth, pieceWidth, pieceWidth)
+    #ellipse(x*pieceWidth+(pieceWidth/2), y*pieceWidth+(pieceWidth/2), pieceWidth, pieceWidth)
 
 
 
 #################################################Setup thing is super important
 def setup():
-    size(500,500)
+    size(pieceWidth*8, pieceWidth*8)
     background(100)
     frameRate(1)
-    fill(255,0,0)
-    #blackPiece = loadImage("black.jpg")
-    #redPiece = loadImage("red.jpg")
+    #noLoop()
+    fill(255,255,255)
+    global bluePiece
+    bluePiece = loadImage("blue.png")
+    global redPiece
+    redPiece = loadImage("red.png")
+    global backImg
+    backImg = loadImage("checkerboard.png")
     
-    boardSetup()
-    #instantiatePieceList()
+    boardSetup()# populates the starting board and pieces, array[][]
     
+    turn("4253", "B")
+    turn("5344", "R")
+    print("hello")
+    #delay(5000)
 #################################################Main draw loop
-def draw():
-    background(100) #gonna be a picture of a board
-    drawBoard(board)
-    
-        
-    
-    
-    
+
+def turn(move, nextTeam):
+    image(backImg, 0, 0, pieceWidth*8, pieceWidth*8) #gonna be a picture of a board
+    updateBoard(move)
+    displayBoard(board, nextTeam)
     
