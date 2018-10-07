@@ -1,13 +1,9 @@
-<<<<<<< HEAD
 #global stuff!!!!
 pieceList = []
 numPieces = 24
 
 #current player flag
 player = "B"
-=======
-#comment
->>>>>>> 3ddeff85bb8f40832cf36d90e5e2f4137becd6d0
 
 pieceWidth = (500)/8 #intuitive; the screen dimensions, three boards across the screen, 8 pieces across a board
 

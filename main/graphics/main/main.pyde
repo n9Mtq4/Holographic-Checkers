@@ -33,6 +33,7 @@ class Checker:
         self.x = x
         self.y = y
 
+
 def boardSetup():
     # add the checkers to each space properly for pregame setup
     for i in range(8):
@@ -63,22 +64,7 @@ def boardSetup():
             # make the space empty
             for j in range(8):
                 board[i][j] = None
-
-# give you three guesses what this does (it makes the pieces and  puts them in a list, dumbass)
-# wipes the list, creates the first numPieces/2 (12?) pieces as black, then the rest as red
-"""
-def instantiatePieceList():
-    #clear the list (.clear() isnt in processing?)
-    pieceList = []
-    for i in range(0,numPieces/2):
-        if i%2==0:
-            pieceList.append(Checker("black", i, 2))
-        pieceList.append(Checker("black", i,i%2))#this does a fun thing to stagger the drawing, dont ask me to repeat it or explain it
-    for a in range((numPieces/2)+1,numPieces-1):
-        pieceList.append(Checker("red", i-12, 7-((i-12)%2)+1))
-        if i%2==0:
-            pieceList.append(Checker("red", i-12, 6))
-"""
+                
     
 # FUNCTION list of checkers iterated over, passed to drawPiece
 #Makes an arr and calls to draw a new piece, an "update" if you will, to that piece  
