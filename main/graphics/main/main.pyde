@@ -32,6 +32,8 @@ class Checker:
         self.team = team
         self.x = x
         self.y = y
+    def toString(self):
+        return self.team
 
 
 def boardSetup():
@@ -77,72 +79,49 @@ def updateBoardList(move):
    
 def updateBoard(board):
     if player == 'B':
+        line = ''
         for y in range(0,8):
-            line = ''
             for x in range(0,8):
                 if isinstance(board[7-y][x],Checker):
-                    line += board[7-y][x].toString() + ' '
+                    line += board[7-y][x].toString()
                 else:
-                    line += board[7-y][x] + ' '
-            drawBoard(line)
+                    line += "0"
+        drawBoard(line)
     # white player orientation
     if player == 'W':
+        line = ''
         for y in range(0,8):
-            line = ''
             for x in range(0,8):
                 if isinstance(board[y][7-x],Checker):
-                    line += board[y][7-x].toString() + ' '
+                    line += board[y][7-x].toString()
                 else:
-                    line += board[y][7-x] + ' '
-            drawBoard(line)
-    # send output here
-    output = ''
-    for y in range(0,8):
-        for x in range(0,8):
-            if isinstance(board[y][x],Checker):
-                output += board[y][x].toString() + ' '
-            else:
-                output += board[y][x] + ' '
-    #drawBoard(output) #send the 
+                    line += "0"
+        drawBoard(line)
 
-#Makes an arr and calls to draw a new piece, an "update" if you will, to that piece  
-def drawBoard(board):
-    if player == "B":
-        temp = []
-        for y in range(0,4):
-            # here I want to reverse the first list of the board (rows)
-            temp = board[y]
-            board[y] = board[7 - y]
-            board[7 - y] = temp
-    #white
-    else:
-        # here I want to reverse the second list of the board (cols)
-        for y in range(0,8):
-            temp = []
-            for x in range(0,4):
-                temp = board[y][x]
-                board[y][x] = board[y][7 - x]
-                board[y][7 - x] = temp
-                
+
+ 
 # draws anything in the board that isnt None
-drawBoard(output):
+def drawBoard(output): #called with the flipped string
+    i=0
     for y in range(0,8):
         for x in range(0,8):
-            if output[8*y+x]:
-                drawPiece(board[y][x])
+            if output[i] == "W" or "B":
+                drawPiece(y,x,output[i])
+            i+=1
+            print(output[i])
                
     
 
 #okay, now this is epic. This function, like, totally draws a red or black sprite at the right position. It takes a checker object as input. Rad!
-def drawPiece(checker):
-    if checker.team == "B":
+def drawPiece(y,x,team):
+    if team == "B":
         #currPiece = blackPiece
         fill(0,0,0)
     else:
         #currPiece = redPiece
         fill(255,0,0)
     #image(currPiece, checker.x, checker.y)
-    ellipse(checker.y*pieceWidth+(pieceWidth/2), checker.x*pieceWidth+(pieceWidth/2), pieceWidth, pieceWidth)
+    ellipse(y*pieceWidth+(pieceWidth/2), x*pieceWidth+(pieceWidth/2), pieceWidth, pieceWidth)
 
 
 
@@ -161,6 +140,7 @@ def setup():
 #################################################Main draw loop
 def draw():
     background(100) #gonna be a picture of a board
+    updateBoard(board)
     drawBoard(board)
     
         
