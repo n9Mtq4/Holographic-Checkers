@@ -48,34 +48,35 @@ if __name__ == '__main__':
                 board[y][x] = '0'
 
 
-
-
     # print out the board setup for testing. Comment this out if the above code is fully tested
     # black player orientation
-    if player == "B":
-        temp = []
-        for y in range(0, 4):
-            # here I want to reverse the first list of the board (rows)
-            temp = board[y]
-            board[y] = board[7 - y]
-            board[7 - y] = temp
-
+    if player == 'B':
+        for y in range(0,8):
+            line = ''
+            for x in range(0,8):
+                if isinstance(board[7-y][x],Checker):
+                    line += board[7-y][x].toString() + ' '
+                else:
+                    line += board[7-y][x] + ' '
+            print(line)
     # white player orientation
-    else:
-        # here I want to reverse the second list of the board (cols)
-        for y in range(0, 8):
-            temp = []
-            for x in range(0, 4):
-                temp = board[y][x]
-                board[y][x] = board[y][7 - x]
-                board[y][7 - x] = temp
-
+    if player == 'W':
+        for y in range(0,8):
+            line = ''
+            for x in range(0,8):
+                if isinstance(board[y][7-x],Checker):
+                    line += board[y][7-x].toString() + ' '
+                else:
+                    line += board[y][7-x] + ' '
+            print(line)
+    # send output here
+    output = ''
     for y in range(0,8):
-        line = ' '
         for x in range(0,8):
             if isinstance(board[y][x],Checker):
-                line += board[y][x].toString()
+                output += board[y][x].toString() + ' '
             else:
-                line += board[y][x]
-        print(line)
+                output += board[y][x] + ' '
+    print(output)
+
 
