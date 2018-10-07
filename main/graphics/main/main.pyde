@@ -70,7 +70,7 @@ def boardSetup():
 #Makes an arr and calls to draw a new piece, an "update" if you will, to that piece 
 
 def updateBoardList(move):
-    
+    board[move[3]][move[2]] = board[move[1]][move[0]]
     board[move[1]][move[0]] = None #this is the piece being moved e.g. if the 
    
 def updateBoard(board):
