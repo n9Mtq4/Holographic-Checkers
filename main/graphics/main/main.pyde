@@ -1,9 +1,10 @@
-#global stuff!!!!
-pieceList = []
 numPieces = 24
 
-
 #am i executing a turn? flag
+
+moves = ["2233", "3544", "1122", "7564", "6273", "0213", "4635", "3324", "1533", "3311", "0022", "2615", "4233", "6453", "3324", "1533", "3311", "2002", "1726", "3122", "3524", "1335", "3517", "5746", "1726", "4635", "2615", "0000"]
+moveCounter = 0
+
 
 okMove = "4253"
 nextPlayer = "b"
@@ -11,7 +12,7 @@ nextPlayer = "b"
 #current player flag
 player = "b"
 
-pieceWidth = 80 #intuitive; the screen dimensions, three boards across the screen, 8 pieces across a board THIS NEEDS TO BE 45 FOR THE PROJECTOR
+pieceWidth = 45 #intuitive; the screen dimensions, three boards across the screen, 8 pieces across a board THIS NEEDS TO BE 45 FOR THE PROJECTOR
 
 # initialize the board as a double array with none values in each space
 board = [None] * 8
@@ -40,7 +41,16 @@ class Checker:
     def toString(self):
         return self.team
 
+#just for testing kinging
+"""
+def boardSetup():
+    for y in range(8):
+        for x in range(8):
+            board[y][x] = None
+        board[6][1] = Checker("b", 1, 6)
+        board[1][1] = Checker("r", 1, 1)
 
+"""
 def boardSetup():
     # add the checkers to each space properly for pregame setup
     for y in range(8):
@@ -71,26 +81,40 @@ def boardSetup():
             # make the space empty
             for x in range(8):
                 board[y][x] = None
-                
+      
     
 # FUNCTION list of checkers iterated over, passed to drawPiece
 #Makes an arr and calls to draw a new piece, an "update" if you will, to that piece 
 
 def updateBoard(move):
+    
     board[int(move[3])][int(move[2])] = board[int(move[1])][int(move[0])] 
     board[int(move[1])][int(move[0])] = None #this is the piece being moved
-    board[int(move[3])][int(move[2])].x = int(move[2])
-    board[int(move[3])][int(move[2])].y = int(move[3])
+    
+    currPiece = board[int(move[3])][int(move[2])]
+    currPiece.x = int(move[2])
+    currPiece.y = int(move[3])
     x1=int(move[0])
     y1=int(move[1])
     x2=int(move[2])
     y2=int(move[3])
     deltaX = int(move[2])-int(move[0])
     deltaY = int(move[3])-int(move[1])
-    print("debug 1")
-    if (abs(deltaX) > 1) or (abs(deltaY) > 1):
-        print("debug 2")
+    
+    
+
+    if (abs(deltaX) > 1) or (abs(deltaY) > 1): #if the move is a jump, remove the piece jumped over
         board[y1+(deltaY/2)][x1+(deltaX/2)] = None
+        # checking if the point it moved to would make it a king
+    print("kinged?")
+
+    if ((currPiece.team == "r") and (y2 == 0)):
+        currPiece.team = "R"
+        currPiece.king = True
+    if ((currPiece.team == "b") and (y2 == 7)):
+        currPiece.team = "B"
+        currPiece.king = True
+    
         
    
 def displayBoard(board, team):
@@ -104,7 +128,7 @@ def displayBoard(board, team):
                     line += "0"
         drawBoard(line)
         #send string to phone
-    # white player orientation
+    # red player orientation
     elif team == 'r':
         line = ''
         for y in range(0,8):
@@ -121,7 +145,7 @@ def displayBoard(board, team):
  
 # draws anything in the board that isnt None
 def drawBoard(output): #called with the flipped string
-    print(output)
+    #print(output) ############################################This would pass the string to the server function
     x=0
     y=0
     for i in range(0,64):
@@ -134,34 +158,37 @@ def drawBoard(output): #called with the flipped string
             #print(output[i])
                
     
-
-#okay, now this is epic. This function, like, totally draws a red or black sprite at the right position. It takes a checker object as input. Rad!
+#takes a checker object as input, draws it in the correct place
 def drawPiece(y,x,team):
     if team == "b":
         currPiece = bluePiece
-    elif team == "B":
+    elif team == "B": #hacking b
         currPiece = blueKing
     elif team == "r":
         currPiece = redPiece
     elif team == "R":
         currPiece = redKing
     else:
-        print("kill myself") #helpful advice
-    image(currPiece, x*pieceWidth, y*pieceWidth, pieceWidth, pieceWidth)
+       print("error09") #helpful advice
+    image(currPiece, x*pieceWidth+780, y*pieceWidth, pieceWidth, pieceWidth)
 
 
 
 #################################################Setup thing is super important
 def setup():
-    size(pieceWidth*8, pieceWidth*8)
-    background(100)
-    frameRate(10)
+    size(1920,1040)
+    background(0)
+    frameRate(30)
     #noLoop()
     fill(255,255,255)
     global bluePiece
     bluePiece = loadImage("blue.png")
     global redPiece
     redPiece = loadImage("red.png")
+    global blueKing
+    blueKing = loadImage("blueKing.png")
+    global redKing
+    redKing = loadImage("redKing.png")
     global backImg
     backImg = loadImage("checkerboard.png")
     
@@ -170,7 +197,7 @@ def setup():
     global flag
     flag = -1
     
-    image(backImg, 0, 0, pieceWidth*8, pieceWidth*8) #picture of a board
+    image(backImg, 780, 0, pieceWidth*8, pieceWidth*8) #picture of a board
     displayBoard(board, "b")
     #delay(5000)
 #################################################Main draw loop
@@ -179,15 +206,18 @@ def draw():
         turn(okMove, nextPlayer)
 
 
-
 def turn(move, nextTeam):
     
     #flag = frameCount
     print("turn got called")
-    image(backImg, 0, 0, pieceWidth*8, pieceWidth*8) #picture of a board
+    image(backImg, 780, 0, pieceWidth*8, pieceWidth*8) #picture of a board
     updateBoard(move)
     print("board update worked")
     displayBoard(board, nextTeam)
+    save("screen.jpg")
+    img = loadImage("screen.jpg")
+    #rotate(PI/2.0)
+    image(img, 0, 680)
 
     
 def keyTyped():
@@ -195,48 +225,22 @@ def keyTyped():
     global okMove
     global flag
     global nextPlayer
+    global moves
+    global moveCounter
     
     if key == "q":
-        if dealWithString("223"):
-            print("q done")
-            okMove = "2233"
-            nextPlayer = "r"
-            flag = frameCount+5
+        if dealWithString(moves[moveCounter]):
+            okMove = moves[moveCounter]
+            if moveCounter < len(moves):
+                moveCounter += 1
+            #nextPlayer = "b"
+            flag = frameCount+1
     if key == "w":
-        if dealWithString("3544"):
-            okMove = "3544"
+        if dealWithString("2031"):
+            okMove = "2031"
             nextPlayer = "b" 
             flag = frameCount+5
-    if key == "e":
-        if dealWithString("6273"):
-            okMove = "6273"
-            nextPlayer = "r"
-            flag = frameCount+5
-    if key == "r":
-        if dealWithString("4422"):
-            okMove = "4422"
-            nextPlayer = "b"
-            flag = frameCount+5
-    if key == "t":
-        if dealWithString("0213"):
-            okMove = "0213"
-            nextPlayer = "r"
-            flag = frameCount+5
-    if key == "y":
-        if dealWithString("1524"):
-            okMove = "1524"
-            nextPlayer = "b"
-            flag = frameCount+5
-    if key == "u":
-        if dealWithString("1133"):
-            okMove = "1133"
-            nextPlayer = "b"  
-            flag = frameCount+5  
-    if key == "i":
-        if dealWithString("3315"):
-            okMove = "3315"
-            nextPlayer = "r"
-            flag = frameCount+5
+
 
 
     
