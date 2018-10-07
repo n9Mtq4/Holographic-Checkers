@@ -10,8 +10,8 @@ pieceWidth = (500)/8 #intuitive; the screen dimensions, three boards across the 
 
 # initialize the board as a double array with none values in each space
 board = [None] * 8
-for i in range(8):
-    board[i] = [None] * 8
+for y in range(8):
+    board[y] = [None] * 8
 
 
 
@@ -36,34 +36,34 @@ class Checker:
 
 def boardSetup():
     # add the checkers to each space properly for pregame setup
-    for i in range(8):
+    for y in range(8):
         # lower part of board being initialized (Black)
-        if i in range(0,3):
-            for j in range(8):
+        if y in range(0,3):
+            for x in range(8):
                 # if the space coordinates added together are divisible by 2
                 # a checker should be placed on that coordinate
-                if (i + j) % 2 == 0:
+                if (y + x) % 2 == 0:
                     # TODO add a checker here properly instead of an empty string
-                    board[i][j] = Checker("B",i,j)
+                    board[y][x] = Checker("B",y,x)
                 # make the space empty
                 else:
-                    board[i][j] = None
+                    board[y][x] = None
         # upper part of board being initialized (White)
-        elif i in range(5,8):
-            for j in range(8):
+        elif y in range(5,8):
+            for x in range(8):
                 # if the space coordinates added together are divisible by 2
                 # a checker should be placed on that coordinate
-                if (i + j) % 2 == 0:
+                if (y + x) % 2 == 0:
                     # TODO add a checker here properly instead of an empty string
-                    board[i][j] = Checker("W",i,j)
+                    board[y][x] = Checker("W",y,x)
                 # make the space empty
                 else:
-                    board[i][j] = None
+                    board[y][x] = None
         # middle part of board with no checkers
         else:
             # make the space empty
-            for j in range(8):
-                board[i][j] = None
+            for x in range(8):
+                board[y][x] = None
                 
     
 # FUNCTION list of checkers iterated over, passed to drawPiece
@@ -71,20 +71,20 @@ def boardSetup():
 def drawBoard(board):
     if player == "B":
         temp = []
-        for i in range(0,4):
+        for y in range(0,4):
             # here I want to reverse the first list of the board (rows)
-            temp = board[i]
-            board[i] = board[7 - i]
-            board[7 - i] = temp
+            temp = board[y]
+            board[y] = board[7 - y]
+            board[7 - y] = temp
     #white
     else:
         # here I want to reverse the second list of the board (cols)
-        for i in range(0,8):
+        for y in range(0,8):
             temp = []
-            for j in range(0,4):
-                temp = board[i][j]
-                board[i][j] = board[i][7 - j]
-                board[i][7 - j] = temp
+            for x in range(0,4):
+                temp = board[y][x]
+                board[y][x] = board[y][7 - x]
+                board[y][7 - x] = temp
                 
 # draws anything in the board that isnt None
     for y in range(0,8):
