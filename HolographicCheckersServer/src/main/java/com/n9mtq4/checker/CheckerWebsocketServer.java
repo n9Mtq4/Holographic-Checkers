@@ -1,10 +1,16 @@
 package com.n9mtq4.checker;
 
+
+import processing.core.PApplet;
+import java.io.Serializable;
+
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 import org.python.core.PyFunction;
 import org.python.core.PyString;
+
+
 
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
@@ -17,11 +23,13 @@ import java.util.ArrayList;
  * 
  * @author Will "n9Mtq4" Bresnahan
  */
-public class CheckerWebsocketServer extends WebSocketServer {
+public class CheckerWebsocketServer extends WebSocketServer implements Serializable {
 	
 	private final int port;
 	private final PyFunction player1Lambda; // the python function for player 1
 	private final PyFunction player2Lambda; // the python function for player 2
+	
+	//final PApplet p;
 	
 	private final ArrayList<WebSocket> playersSockets = new ArrayList<>();
 	
@@ -30,6 +38,7 @@ public class CheckerWebsocketServer extends WebSocketServer {
 		this.port = port;
 		this.player1Lambda = player1Lambda;
 		this.player2Lambda = player2Lambda;
+		
 	}
 	
 	@Override

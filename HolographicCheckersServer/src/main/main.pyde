@@ -1,12 +1,16 @@
 #global stuff!!!!
+#from java.com.n9mtq4.checker import CheckerWebsocketServer
+
+port = 8881  # the port of the server
+
 pieceList = []
 numPieces = 24
 
 
 #am i executing a turn? flag
+flag = False
 
-okMove = "4253"
-nextPlayer = "b"
+validMove = ''
 
 #current player flag
 player = "b"
@@ -81,17 +85,6 @@ def updateBoard(move):
     board[int(move[1])][int(move[0])] = None #this is the piece being moved
     board[int(move[3])][int(move[2])].x = int(move[2])
     board[int(move[3])][int(move[2])].y = int(move[3])
-    x1=int(move[0])
-    y1=int(move[1])
-    x2=int(move[2])
-    y2=int(move[3])
-    deltaX = int(move[2])-int(move[0])
-    deltaY = int(move[3])-int(move[1])
-    print("debug 1")
-    if (abs(deltaX) > 1) or (abs(deltaY) > 1):
-        print("debug 2")
-        board[y1+(deltaY/2)][x1+(deltaX/2)] = None
-        
    
 def displayBoard(board, team):
     if team == 'b':
@@ -148,6 +141,7 @@ def drawPiece(y,x,team):
     else:
         print("kill myself") #helpful advice
     image(currPiece, x*pieceWidth, y*pieceWidth, pieceWidth, pieceWidth)
+    #ellipse(x*pieceWidth+(pieceWidth/2), y*pieceWidth+(pieceWidth/2), pieceWidth, pieceWidth)
 
 
 
@@ -157,7 +151,9 @@ def setup():
     background(100)
     frameRate(10)
     #noLoop()
-    fill(255,255,255)
+    global server
+    server = CheckerWebsocketServer(port, player1, player2)
+    server.start()  # might need to do this in a thread
     global bluePiece
     bluePiece = loadImage("blue.png")
     global redPiece
@@ -165,116 +161,38 @@ def setup():
     global backImg
     backImg = loadImage("checkerboard.png")
     
+    
     boardSetup()# populates the starting board and pieces, array[][]
 
-    global flag
-    flag = -1
+    frame = 0
     
-    image(backImg, 0, 0, pieceWidth*8, pieceWidth*8) #picture of a board
-    displayBoard(board, "b")
+    print("hello")
     #delay(5000)
 #################################################Main draw loop
 def draw():
-    if flag==frameCount:
-        turn(okMove, nextPlayer)
+    if flag:
+        turn(validMove, nextPlayer)
+
+
 
 
 
 def turn(move, nextTeam):
-    
-    #flag = frameCount
-    print("turn got called")
-    image(backImg, 0, 0, pieceWidth*8, pieceWidth*8) #picture of a board
+    image(backImg, 0, 0, pieceWidth*8, pieceWidth*8) #gonna be a picture of a board
     updateBoard(move)
-    print("board update worked")
     displayBoard(board, nextTeam)
-
+    flag = false
     
-def keyTyped():
-    print("typed %s %d" % (key, keyCode))
-    global okMove
-    global flag
-    global nextPlayer
-    
-    if key == "q":
-        if dealWithString("223"):
-            print("q done")
-            okMove = "2233"
-            nextPlayer = "r"
-            flag = frameCount+5
-    if key == "w":
-        if dealWithString("3544"):
-            okMove = "3544"
-            nextPlayer = "b" 
-            flag = frameCount+5
-    if key == "e":
-        if dealWithString("6273"):
-            okMove = "6273"
-            nextPlayer = "r"
-            flag = frameCount+5
-    if key == "r":
-        if dealWithString("4422"):
-            okMove = "4422"
-            nextPlayer = "b"
-            flag = frameCount+5
-    if key == "t":
-        if dealWithString("0213"):
-            okMove = "0213"
-            nextPlayer = "r"
-            flag = frameCount+5
-    if key == "y":
-        if dealWithString("1524"):
-            okMove = "1524"
-            nextPlayer = "b"
-            flag = frameCount+5
-    if key == "u":
-        if dealWithString("1133"):
-            okMove = "1133"
-            nextPlayer = "b"  
-            flag = frameCount+5  
-    if key == "i":
-        if dealWithString("3315"):
-            okMove = "3315"
-            nextPlayer = "r"
-            flag = frameCount+5
 
+    ##########################################################################################         network stuff    ########
+def player1(msg):
+    """ This is called every time player 1 send a message to the server"""
+    print("player1: " + msg)
+    # you can send messages back
+    server.sendToPlayer1("sending a message to player 1")
+    server.broadcast("message to all players")
 
-    
-def dealWithString(string):
-    #int x coordinate 1 
-    xOne = int(string[0])
-    yOne = int(string[1])
-    xTwo = int(string[2])
-    yTwo = int(string[3])
-    return validMove(xOne, yOne, xTwo, yTwo)
-
-
-def validMove(xOne, yOne, xTwo, yTwo):
-    print(xOne)
-    print(yOne)
-    global board
-    if (xOne>7) or (yOne>7) or (xTwo>7) or (yTwo>7) or (xOne<0) or (yOne<0) or (xTwo<0) or (yTwo<0):
-        return False
-    if board[yOne][xOne] == None:
-        return False
-    else:
-        initial = board[yOne][xOne]
-        deltaY = (yTwo-yOne)
-        if (deltaY<0 and (initial.team == "b")) or (deltaY>0 and (initial.team == "r")):
-            print("wrong deltaY for team")
-            return False
-        deltaX = (xTwo-xOne)
-        if((abs(deltaX)!=2) or (abs(deltaY)!=2)):
-            if((abs(deltaX)!=1) or (abs(deltaY)!=1)):
-                return False
-            elif board[yTwo][xTwo] == None:
-                return True
-            else:
-                return False
-        else:
-            jumped = board[yOne+(deltaY/2)][xOne+(deltaX/2)]
-            # if the target spot is empty and the spot to be jumped over has a checker and its team is different than the jumping piece's team
-            if (board[yTwo][xTwo] == None) and (jumped != None) and (jumped.team.upper() != initial.team.upper()):  
-                return True
-            else:
-                return False
+def player2(msg):
+    """ This is called every time player 2 send a message to the server"""
+    print("player2: " + msg)
+    server.sendToPlayer2("sending a message to player 2")
